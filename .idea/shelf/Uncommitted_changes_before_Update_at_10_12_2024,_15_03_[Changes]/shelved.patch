@@ -1,0 +1,25 @@
+Index: app/src/main/java/com/example/cryptostock3/presentation/StockItemDiffUtil.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.cryptostock.presentation\n\nimport androidx.recyclerview.widget.DiffUtil\nimport com.example.cryptostock.domain.CurrencyItem\n\nclass StockItemDiffUtil: DiffUtil.ItemCallback<CurrencyItem>() {\n    override fun areItemsTheSame(oldItem: CurrencyItem, newItem: CurrencyItem) =\n        oldItem.id == newItem.id\n\n    override fun areContentsTheSame(oldItem: CurrencyItem, newItem: CurrencyItem) =\n        oldItem == newItem\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/cryptostock3/presentation/StockItemDiffUtil.kt b/app/src/main/java/com/example/cryptostock3/presentation/StockItemDiffUtil.kt
+--- a/app/src/main/java/com/example/cryptostock3/presentation/StockItemDiffUtil.kt	(revision 70384e9a35bc754789cbf9995da1cf128ded8cdb)
++++ b/app/src/main/java/com/example/cryptostock3/presentation/StockItemDiffUtil.kt	(date 1733835789710)
+@@ -1,11 +1,12 @@
+ package com.example.cryptostock.presentation
+ 
+ import androidx.recyclerview.widget.DiffUtil
+-import com.example.cryptostock.domain.CurrencyItem
++import com.example.cryptostock3.domain.CurrencyItem
++import com.example.cryptostock3.domain.CurrencyItem
+ 
+ class StockItemDiffUtil: DiffUtil.ItemCallback<CurrencyItem>() {
+     override fun areItemsTheSame(oldItem: CurrencyItem, newItem: CurrencyItem) =
+-        oldItem.id == newItem.id
++        oldItem.fromSymbol == newItem.fromSymbol
+ 
+     override fun areContentsTheSame(oldItem: CurrencyItem, newItem: CurrencyItem) =
+         oldItem == newItem
