@@ -32,40 +32,40 @@ class RepositoryDatabase @Inject constructor(@ApplicationContext context: Contex
             return mediatorLiveData
         }
 
+
     override suspend fun getItem(fromSymbol: String?): StockItem {
         return dao.getItem(fromSymbol).toStockItem()
     }
 
-    //val retrofitObject = RetrofitObject()
 
     override suspend fun loadData() {
-//        withContext(Dispatchers.IO) {
-//            retrofitObject.getAndroid { response ->
-//                response?.let {
-//                    var list1 = mutableListOf<StockEntity>()
-//                    it.data?.forEach { i ->
-//                        Log.d("XXX", "fetchAndSaveData item: $i")
-//                        val imageUrl = "https://www.cryptocompare.com${i.coinInfo?.imageUrl ?: ""}"
-//
-//                        val entity = StockEntity(
-//                            0,
-//                            i.coinInfo?.fullName ?: "Unknown",
-//                            i.rAW?.uSD?.pRICE.toString(),
-//                            i.rAW?.uSD?.lOWDAY.toString(),
-//                            i.rAW?.uSD?.hIGHDAY.toString(),
-//                            i.rAW?.uSD?.lASTMARKET.toString(),
-//                            imageUrl
-//                        )
-//                        list1.add(entity)
-//
-//                    }
-//                    CoroutineScope(Dispatchers.Default).launch {
-//                        dao.insert(list1)
-//                    }
-//
-//
-//                }
-//            }
-//        }
+        try {
+            val response = RetrofitObject.stockService.getAndroid()
+
+            if (response.isSuccessful) {
+                val stockItems = response.body()?.data?.map { it.toStockItem() } ?: emptyList()
+
+                val stockEntities = stockItems.map { stockItem ->
+                    StockEntity(
+                        fromSymbol = stockItem.fromSymbol,
+                        toSymbol = stockItem.toSymbol,
+                        lastMarket = stockItem.lastMarket,
+                        price = stockItem.price,
+                        lastUpdate = stockItem.lastUpdate,
+                        supply = stockItem.highDay,
+                        marketCap = stockItem.lowDay,
+                        imageUrl = stockItem.imageUrl
+                    )
+                }
+
+                withContext(Dispatchers.IO) {
+                    dao.insert(stockEntities)
+                }
+            } else {
+                Log.e("XXXX", "Error: ${response.code()} - ${response.message()}")
+            }
+        } catch (e: Exception) {
+            Log.e("XXXX", "Failed to load data: ${e.localizedMessage}")
+        }
     }
 }
