@@ -5,7 +5,7 @@ import com.example.cryptostock3.domain.StockItem
 import com.google.gson.annotations.SerializedName
 
 
-@Entity(tableName = "stock_item_list")
+@Entity(tableName = "stock_item_table")
 data class StockEntity(
 
     @SerializedName("FROMSYMBOL")
@@ -32,7 +32,7 @@ data class StockEntity(
     @SerializedName("IMAGEURL")
     val imageUrl: String?
 ) {
-    fun toCurrencyItem(): StockItem {
+    fun toStockItem(): StockItem {
         return StockItem(
             fromSymbol = this.fromSymbol,
             toSymbol = this.toSymbol,

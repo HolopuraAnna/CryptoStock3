@@ -1,8 +1,10 @@
 package com.example.cryptostock3.data.api
 
-import com.example.cryptostock3.data.db.StockEntity
+import androidx.room.Entity
 import com.example.cryptostock3.domain.StockItem
 import com.google.gson.annotations.SerializedName
+
+
 data class ApiResponse(
 //    @SerializedName("Message") val message: String?,
 //    @SerializedName("Type") val type: Int?,
