@@ -19,5 +19,5 @@ interface DaoStockItem {
     suspend fun getItem(fromSymbol: String?): StockEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: List<StockEntity>)
+    suspend fun insert(items: List<StockEntity>)
 }
