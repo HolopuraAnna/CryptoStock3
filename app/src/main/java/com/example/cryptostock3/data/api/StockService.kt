@@ -7,7 +7,7 @@ import retrofit2.http.Query
 interface StockService {
 
     @GET("top/totalvolfull") // ?limit=30&tsym=USD
-    fun getAndroid(
+    suspend fun getAndroid(
         @Query("limit") courseData1: String = "30",
         @Query("tsym") courseData2: String = "USD"
     ): Response<ApiResponse>
