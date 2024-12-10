@@ -1,0 +1,60 @@
+Index: app/src/main/java/com/example/cryptostock3/presentation/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.cryptostock3.presentation\r\n\r\nimport android.os.Bundle\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport androidx.recyclerview.widget.LinearLayoutManager\r\nimport androidx.recyclerview.widget.RecyclerView\r\nimport com.example.cryptostock3.R\r\nimport com.example.cryptostock3.domain.StockItem\r\n\r\nclass MainActivity : AppCompatActivity() {\r\n\r\n    private val stockItemsAdapter = StockItemsAdapter()\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        setContentView(R.layout.activity_main)\r\n\r\n        val recyclerView = findViewById<RecyclerView>(R.id.stockItems)\r\n        recyclerView.layoutManager = LinearLayoutManager(this)\r\n        recyclerView.adapter = stockItemsAdapter\r\n\r\n        // Create dummy data\r\n        val dummyData = listOf(\r\n            StockItem(\r\n                fromSymbol = \"BTC\",\r\n                toSymbol = \"USD\",\r\n                lastMarket = \"Binance\",\r\n                price = \"34500.00\",\r\n                lastUpdate = 1700000000000L, // Timestamp in milliseconds\r\n                highDay = \"35000.00\",\r\n                lowDay = \"34000.00\",\r\n                imageUrl = \"https://example.com/btc.png\"\r\n            ),\r\n            StockItem(\r\n                fromSymbol = \"ETH\",\r\n                toSymbol = \"USD\",\r\n                lastMarket = \"Coinbase\",\r\n                price = \"2000.00\",\r\n                lastUpdate = 1733782924, // Timestamp in milliseconds\r\n                highDay = \"2100.00\",\r\n                lowDay = \"1900.00\",\r\n                imageUrl = \"https://example.com/eth.png\"\r\n            ),\r\n            StockItem(\r\n                fromSymbol = \"XRP\",\r\n                toSymbol = \"USD\",\r\n                lastMarket = \"Kraken\",\r\n                price = \"0.50\",\r\n                lastUpdate = 1700000000000L, // Timestamp in milliseconds\r\n                highDay = \"0.52\",\r\n                lowDay = \"0.48\",\r\n                imageUrl = \"https://example.com/xrp.png\"\r\n            )\r\n        )\r\n\r\n        // Set the dummy data to the adapter\r\n        stockItemsAdapter.submitList(dummyData)\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/cryptostock3/presentation/MainActivity.kt b/app/src/main/java/com/example/cryptostock3/presentation/MainActivity.kt
+--- a/app/src/main/java/com/example/cryptostock3/presentation/MainActivity.kt	(revision 82b732be77ab0b313ad00d9765cdaada2306ac18)
++++ b/app/src/main/java/com/example/cryptostock3/presentation/MainActivity.kt	(date 1733844679831)
+@@ -26,7 +26,7 @@
+                 toSymbol = "USD",
+                 lastMarket = "Binance",
+                 price = "34500.00",
+-                lastUpdate = 1700000000000L, // Timestamp in milliseconds
++                lastUpdate = "1700000000000", // Timestamp in milliseconds
+                 highDay = "35000.00",
+                 lowDay = "34000.00",
+                 imageUrl = "https://example.com/btc.png"
+@@ -36,7 +36,7 @@
+                 toSymbol = "USD",
+                 lastMarket = "Coinbase",
+                 price = "2000.00",
+-                lastUpdate = 1733782924, // Timestamp in milliseconds
++                lastUpdate = "1733782924", // Timestamp in milliseconds
+                 highDay = "2100.00",
+                 lowDay = "1900.00",
+                 imageUrl = "https://example.com/eth.png"
+@@ -46,7 +46,7 @@
+                 toSymbol = "USD",
+                 lastMarket = "Kraken",
+                 price = "0.50",
+-                lastUpdate = 1700000000000L, // Timestamp in milliseconds
++                lastUpdate = "1700000000000", // Timestamp in milliseconds
+                 highDay = "0.52",
+                 lowDay = "0.48",
+                 imageUrl = "https://example.com/xrp.png"
+Index: app/src/main/java/com/example/cryptostock3/presentation/StockItemsAdapter.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.cryptostock3.presentation\r\n\r\nimport android.annotation.SuppressLint\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport android.widget.ImageView\r\nimport android.widget.TextView\r\nimport androidx.cardview.widget.CardView\r\nimport androidx.recyclerview.widget.ListAdapter\r\nimport androidx.recyclerview.widget.RecyclerView\r\nimport com.example.cryptostock.presentation.StockItemDiffUtil\r\nimport com.example.cryptostock3.R\r\nimport com.example.cryptostock3.domain.StockItem\r\nimport com.squareup.picasso.Picasso\r\nimport java.text.SimpleDateFormat\r\nimport java.util.Date\r\nimport java.util.Locale\r\n\r\nclass StockItemsAdapter : ListAdapter<StockItem, StockItemsAdapter.ViewHolder>(StockItemDiffUtil()) {\r\n\r\n    interface ItemsInteractionListener {\r\n        fun onClick(stockItem: StockItem)\r\n    }\r\n\r\n    var itemsInteractionListener: ItemsInteractionListener? = null\r\n\r\n    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {\r\n        val cardView = view.findViewById<CardView>(R.id.cardView_stockItem)\r\n        val image = view.findViewById<ImageView>(R.id.pic)\r\n        val currency = view.findViewById<TextView>(R.id.currency)\r\n        val price = view.findViewById<TextView>(R.id.price)\r\n        val update = view.findViewById<TextView>(R.id.update)\r\n    }\r\n\r\n    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {\r\n        val view = LayoutInflater.from(viewGroup.context)\r\n            .inflate(R.layout.stock_item, viewGroup, false)\r\n\r\n        return ViewHolder(view)\r\n    }\r\n\r\n    @SuppressLint(\"SetTextI18n\")\r\n    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {\r\n        val stockItem = getItem(position)\r\n        viewHolder.cardView.setOnClickListener {\r\n            itemsInteractionListener?.onClick(stockItem)\r\n        }\r\n        Picasso.get().load(stockItem.imageUrl).into(viewHolder.image)\r\n        viewHolder.currency.text = stockItem.fromSymbol\r\n        viewHolder.price.text = stockItem.price.toString()\r\n\r\n        // Parse `lastUpdate` as a Long (timestamp in milliseconds)\r\n        val date = stockItem.lastUpdate?.let { Date(it) } ?: Date(0)\r\n        viewHolder.update.text = SimpleDateFormat(\"dd/MM/yyyy HH:mm:ss\", Locale.getDefault()).format(date)\r\n    }\r\n\r\n\r\n}\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/cryptostock3/presentation/StockItemsAdapter.kt b/app/src/main/java/com/example/cryptostock3/presentation/StockItemsAdapter.kt
+--- a/app/src/main/java/com/example/cryptostock3/presentation/StockItemsAdapter.kt	(revision 82b732be77ab0b313ad00d9765cdaada2306ac18)
++++ b/app/src/main/java/com/example/cryptostock3/presentation/StockItemsAdapter.kt	(date 1733844563446)
+@@ -51,7 +51,11 @@
+         viewHolder.price.text = stockItem.price.toString()
+ 
+         // Parse `lastUpdate` as a Long (timestamp in milliseconds)
+-        val date = stockItem.lastUpdate?.let { Date(it) } ?: Date(0)
++        val date = stockItem.lastUpdate?.toLong().let {
++            if (it != null) {
++                Date(it)
++            }
++        } ?: Date(0)
+         viewHolder.update.text = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(date)
+     }
+ 

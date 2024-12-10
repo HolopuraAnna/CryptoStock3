@@ -17,4 +17,5 @@ object RetrofitObject {
     val stockService: StockService by lazy {
         retrofit.create(StockService::class.java)
     }
+
 }

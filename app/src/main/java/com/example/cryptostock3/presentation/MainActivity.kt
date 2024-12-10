@@ -1,11 +1,18 @@
 package com.example.cryptostock3.presentation
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptostock3.R
+import com.example.cryptostock3.data.api.RetrofitObject
 import com.example.cryptostock3.domain.StockItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,41 +26,35 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = stockItemsAdapter
 
-        // Create dummy data
-        val dummyData = listOf(
-            StockItem(
-                fromSymbol = "BTC",
-                toSymbol = "USD",
-                lastMarket = "Binance",
-                price = "34500.00",
-                lastUpdate = 1700000000000L, // Timestamp in milliseconds
-                highDay = "35000.00",
-                lowDay = "34000.00",
-                imageUrl = "https://example.com/btc.png"
-            ),
-            StockItem(
-                fromSymbol = "ETH",
-                toSymbol = "USD",
-                lastMarket = "Coinbase",
-                price = "2000.00",
-                lastUpdate = 1733782924, // Timestamp in milliseconds
-                highDay = "2100.00",
-                lowDay = "1900.00",
-                imageUrl = "https://example.com/eth.png"
-            ),
-            StockItem(
-                fromSymbol = "XRP",
-                toSymbol = "USD",
-                lastMarket = "Kraken",
-                price = "0.50",
-                lastUpdate = 1700000000000L, // Timestamp in milliseconds
-                highDay = "0.52",
-                lowDay = "0.48",
-                imageUrl = "https://example.com/xrp.png"
-            )
-        )
-
-        // Set the dummy data to the adapter
-        stockItemsAdapter.submitList(dummyData)
+        loadData()
     }
+
+
+    private fun loadData() {
+        lifecycleScope.launch {
+            try {
+                //Toast.makeText(this@MainActivity, "Fetching the crypto magic!", Toast.LENGTH_SHORT).show()
+
+                val response = withContext(Dispatchers.IO) {
+                    RetrofitObject.stockService.getAndroid()
+                }
+
+                if (response.isSuccessful) {
+                    val stocks = response.body()?.data?.map { it.toStockItem() } ?: emptyList()
+                    Log.d("XXXX", "Loaded ${stocks.size} stocks $stocks")
+                    stockItemsAdapter.submitList(stocks)
+                } else {
+                    Log.e("XXXX", "Error: ${response.code()} - ${response.message()}")
+                    Toast.makeText(this@MainActivity, "Failed to fetch stocks: ${response.message()}", Toast.LENGTH_LONG).show()
+                }
+            } catch (e: Exception) {
+                Log.e("XXXX", "Something went wrong: ${e.localizedMessage}")
+                Toast.makeText(this@MainActivity, "Oops! Something went wrong. Please try again.", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+
+
+
 }
