@@ -21,7 +21,7 @@ data class StockEntity(
     val price: String?,
 
     @SerializedName("LASTUPDATE")
-    val lastUpdate: String?,
+    val lastUpdate: Long?,
 
     @SerializedName("HIGHDAY")
     val supply: String?,

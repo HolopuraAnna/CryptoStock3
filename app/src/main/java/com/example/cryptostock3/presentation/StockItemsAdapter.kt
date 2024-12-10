@@ -20,7 +20,7 @@ import java.util.Locale
 class StockItemsAdapter : ListAdapter<StockItem, StockItemsAdapter.ViewHolder>(StockItemDiffUtil()) {
 
     interface ItemsInteractionListener {
-        fun onClick(stockItem: StockItem)
+        fun onClick(shopItem: StockItem)
     }
 
     var itemsInteractionListener: ItemsInteractionListener? = null
@@ -57,5 +57,6 @@ class StockItemsAdapter : ListAdapter<StockItem, StockItemsAdapter.ViewHolder>(S
 
 
 }
+
 
 
