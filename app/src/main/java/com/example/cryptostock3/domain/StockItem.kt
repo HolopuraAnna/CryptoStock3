@@ -1,6 +1,6 @@
 package com.example.cryptostock3.domain
 
-data class CurrencyItem (
+data class StockItem (
     val fromSymbol: String?,
     val toSymbol: String?,
     val lastMarket: String?,

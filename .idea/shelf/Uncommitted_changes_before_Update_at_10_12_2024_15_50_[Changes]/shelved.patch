@@ -1,0 +1,21 @@
+Index: app/src/main/java/com/example/cryptostock3/presentation/StockItemsAdapter.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.cryptostock3.presentation\r\n\r\nimport android.annotation.SuppressLint\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport android.widget.ImageView\r\nimport android.widget.TextView\r\nimport androidx.cardview.widget.CardView\r\nimport androidx.recyclerview.widget.ListAdapter\r\nimport androidx.recyclerview.widget.RecyclerView\r\nimport com.example.cryptostock.presentation.StockItemDiffUtil\r\nimport com.example.cryptostock3.R\r\nimport com.example.cryptostock3.domain.CurrencyItem\r\nimport com.squareup.picasso.Picasso\r\nimport java.text.SimpleDateFormat\r\nimport java.util.Locale\r\n\r\nclass StockItemsAdapter : ListAdapter<CurrencyItem, StockItemsAdapter.ViewHolder>(StockItemDiffUtil()) {\r\n\r\n    interface ItemsInteractionListener {\r\n        fun onClick(shopItem: CurrencyItem)\r\n    }\r\n\r\n    var itemsInteractionListener: ItemsInteractionListener? = null\r\n\r\n    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {\r\n        val cardView = view.findViewById<CardView>(R.id.cardView_stockItem)\r\n        val image = view.findViewById<ImageView>(R.id.pic)\r\n        val currency = view.findViewById<TextView>(R.id.currency)\r\n        val price = view.findViewById<TextView>(R.id.price)\r\n        val update = view.findViewById<TextView>(R.id.update)\r\n    }\r\n\r\n    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {\r\n        val view = LayoutInflater.from(viewGroup.context)\r\n            .inflate(R.layout.stock_item, viewGroup, false)\r\n\r\n        return ViewHolder(view)\r\n    }\r\n\r\n    @SuppressLint(\"SetTextI18n\")\r\n    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {\r\n        val stockItem = getItem(position)\r\n        viewHolder.cardView.setOnClickListener {\r\n            itemsInteractionListener?.onClick(stockItem)\r\n        }\r\n        Picasso.get().load(stockItem.imageUrl).into(viewHolder.image)\r\n        viewHolder.currency.text = stockItem.fromSymbol\r\n        viewHolder.price.text = stockItem.price.toString()\r\n        val dateFormat = SimpleDateFormat(\"dd:mm:yyyy\", Locale.getDefault())\r\n        viewHolder.update.text = dateFormat.format(stockItem.lastUpdate)\r\n    }\r\n}\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/cryptostock3/presentation/StockItemsAdapter.kt b/app/src/main/java/com/example/cryptostock3/presentation/StockItemsAdapter.kt
+--- a/app/src/main/java/com/example/cryptostock3/presentation/StockItemsAdapter.kt	(revision 026b036422578a61dd85771ff01d9c137247e992)
++++ b/app/src/main/java/com/example/cryptostock3/presentation/StockItemsAdapter.kt	(date 1733838047365)
+@@ -48,8 +48,8 @@
+         Picasso.get().load(stockItem.imageUrl).into(viewHolder.image)
+         viewHolder.currency.text = stockItem.fromSymbol
+         viewHolder.price.text = stockItem.price.toString()
+-        val dateFormat = SimpleDateFormat("dd:mm:yyyy", Locale.getDefault())
+-        viewHolder.update.text = dateFormat.format(stockItem.lastUpdate)
++        //val dateFormat = SimpleDateFormat("dd:mm:yyyy", Locale.getDefault())
++        viewHolder.update.text = stockItem.lastUpdate
+     }
+ }
+ 

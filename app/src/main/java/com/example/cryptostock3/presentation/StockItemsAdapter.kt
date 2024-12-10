@@ -11,16 +11,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptostock.presentation.StockItemDiffUtil
 import com.example.cryptostock3.R
-import com.example.cryptostock3.domain.CurrencyItem
+import com.example.cryptostock3.domain.StockItem
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class StockItemsAdapter : ListAdapter<CurrencyItem, StockItemsAdapter.ViewHolder>(StockItemDiffUtil()) {
+class StockItemsAdapter : ListAdapter<StockItem, StockItemsAdapter.ViewHolder>(StockItemDiffUtil()) {
 
     interface ItemsInteractionListener {
-        fun onClick(shopItem: CurrencyItem)
+        fun onClick(stockItem: StockItem)
     }
 
     var itemsInteractionListener: ItemsInteractionListener? = null

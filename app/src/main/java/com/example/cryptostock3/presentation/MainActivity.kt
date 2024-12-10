@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptostock3.R
-import com.example.cryptostock3.domain.CurrencyItem
+import com.example.cryptostock3.domain.StockItem
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         // Create dummy data
         val dummyData = listOf(
-            CurrencyItem(
+            StockItem(
                 fromSymbol = "BTC",
                 toSymbol = "USD",
                 lastMarket = "Binance",
@@ -31,17 +31,17 @@ class MainActivity : AppCompatActivity() {
                 lowDay = "34000.00",
                 imageUrl = "https://example.com/btc.png"
             ),
-            CurrencyItem(
+            StockItem(
                 fromSymbol = "ETH",
                 toSymbol = "USD",
                 lastMarket = "Coinbase",
                 price = "2000.00",
-                lastUpdate = 1700000000000L, // Timestamp in milliseconds
+                lastUpdate = 1733782924, // Timestamp in milliseconds
                 highDay = "2100.00",
                 lowDay = "1900.00",
                 imageUrl = "https://example.com/eth.png"
             ),
-            CurrencyItem(
+            StockItem(
                 fromSymbol = "XRP",
                 toSymbol = "USD",
                 lastMarket = "Kraken",
