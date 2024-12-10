@@ -1,0 +1,113 @@
+Index: app/src/main/java/com/example/cryptostock3/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.cryptostock3\n\nimport android.os.Bundle\nimport androidx.activity.enableEdgeToEdge\nimport androidx.appcompat.app.AppCompatActivity\nimport androidx.core.view.ViewCompat\nimport androidx.core.view.WindowInsetsCompat\n\nclass MainActivity : AppCompatActivity() {\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        enableEdgeToEdge()\n        setContentView(R.layout.activity_main)\n        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->\n            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())\n            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)\n            insets\n        }\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/cryptostock3/MainActivity.kt b/app/src/main/java/com/example/cryptostock3/MainActivity.kt
+--- a/app/src/main/java/com/example/cryptostock3/MainActivity.kt	(revision c8b4f1ce2895762b4ea03aaec1c66e9f72b6ab2a)
++++ b/app/src/main/java/com/example/cryptostock3/MainActivity.kt	(date 1733835034852)
+@@ -1,20 +1,51 @@
+-package com.example.cryptostock3
+-
+ import android.os.Bundle
+-import androidx.activity.enableEdgeToEdge
++import android.widget.TextView
+ import androidx.appcompat.app.AppCompatActivity
+-import androidx.core.view.ViewCompat
+-import androidx.core.view.WindowInsetsCompat
++import retrofit2.Retrofit
++import retrofit2.converter.gson.GsonConverterFactory
++import retrofit2.Call
++import retrofit2.Callback
++import retrofit2.Response
+ 
+ class MainActivity : AppCompatActivity() {
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+-        enableEdgeToEdge()
+         setContentView(R.layout.activity_main)
+-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+-            insets
+-        }
++
++        val retrofit = Retrofit.Builder()
++            .baseUrl("https://yourapi.com/") // Replace with your API's base URL
++            .addConverterFactory(GsonConverterFactory.create())
++            .build()
++
++        val apiService = retrofit.create(ApiService::class.java)
++        fetchCurrencyData(apiService)
++    }
++
++    private fun fetchCurrencyData(apiService: ApiService) {
++        val call = apiService.getCurrencyData()
++
++        call.enqueue(object : Callback<CurrencyResponse> {
++            override fun onResponse(call: Call<CurrencyResponse>, response: Response<CurrencyResponse>) {
++                if (response.isSuccessful) {
++                    response.body()?.let { currency ->
++                        updateUI(currency)
++                    }
++                }
++            }
++
++            override fun onFailure(call: Call<CurrencyResponse>, t: Throwable) {
++                // Handle failure
++                t.printStackTrace()
++            }
++        })
+     }
+-}
+\ No newline at end of file
++
++    private fun updateUI(currency: CurrencyResponse) {
++        findViewById<TextView>(R.id.currency).text = currency.name
++        findViewById<TextView>(R.id.price).text = currency.price.toString()
++        findViewById<TextView>(R.id.min).text = currency.dayMinPrice.toString()
++        findViewById<TextView>(R.id.max).text = currency.dayMaxPrice.toString()
++        findViewById<TextView>(R.id.lastDeal).text = currency.lastDeal
++        findViewById<TextView>(R.id.update).text = currency.lastUpdate
++    }
++}
+Index: app/build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\n    alias(libs.plugins.android.application)\n    alias(libs.plugins.kotlin.android)\n}\n\nandroid {\n    namespace = \"com.example.cryptostock3\"\n    compileSdk = 34\n\n    defaultConfig {\n        applicationId = \"com.example.cryptostock3\"\n        minSdk = 24\n        targetSdk = 34\n        versionCode = 1\n        versionName = \"1.0\"\n\n        testInstrumentationRunner = \"androidx.test.runner.AndroidJUnitRunner\"\n    }\n\n    buildTypes {\n        release {\n            isMinifyEnabled = false\n            proguardFiles(\n                getDefaultProguardFile(\"proguard-android-optimize.txt\"),\n                \"proguard-rules.pro\"\n            )\n        }\n    }\n    compileOptions {\n        sourceCompatibility = JavaVersion.VERSION_1_8\n        targetCompatibility = JavaVersion.VERSION_1_8\n    }\n    kotlinOptions {\n        jvmTarget = \"1.8\"\n    }\n}\n\ndependencies {\n\n    implementation(libs.androidx.core.ktx)\n    implementation(libs.androidx.appcompat)\n    implementation(libs.material)\n    implementation(libs.androidx.activity)\n    implementation(libs.androidx.constraintlayout)\n    testImplementation(libs.junit)\n    androidTestImplementation(libs.androidx.junit)\n    androidTestImplementation(libs.androidx.espresso.core)\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+--- a/app/build.gradle.kts	(revision c8b4f1ce2895762b4ea03aaec1c66e9f72b6ab2a)
++++ b/app/build.gradle.kts	(date 1733835091692)
+@@ -45,4 +45,7 @@
+     testImplementation(libs.junit)
+     androidTestImplementation(libs.androidx.junit)
+     androidTestImplementation(libs.androidx.espresso.core)
++
++    implementation("com.squareup.retrofit2:retrofit:2.9.0")
++    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+ }
+\ No newline at end of file
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"VcsDirectoryMappings\" defaultProject=\"true\" />\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+--- a/.idea/vcs.xml	(revision c8b4f1ce2895762b4ea03aaec1c66e9f72b6ab2a)
++++ b/.idea/vcs.xml	(date 1733834892747)
+@@ -1,4 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="VcsDirectoryMappings" defaultProject="true" />
++  <component name="VcsDirectoryMappings">
++    <mapping directory="" vcs="Git" />
++  </component>
+ </project>
+\ No newline at end of file

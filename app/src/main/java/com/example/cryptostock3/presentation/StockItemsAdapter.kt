@@ -14,6 +14,7 @@ import com.example.cryptostock3.R
 import com.example.cryptostock3.domain.CurrencyItem
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class StockItemsAdapter : ListAdapter<CurrencyItem, StockItemsAdapter.ViewHolder>(StockItemDiffUtil()) {
@@ -48,9 +49,13 @@ class StockItemsAdapter : ListAdapter<CurrencyItem, StockItemsAdapter.ViewHolder
         Picasso.get().load(stockItem.imageUrl).into(viewHolder.image)
         viewHolder.currency.text = stockItem.fromSymbol
         viewHolder.price.text = stockItem.price.toString()
-        val dateFormat = SimpleDateFormat("dd:mm:yyyy", Locale.getDefault())
-        viewHolder.update.text = dateFormat.format(stockItem.lastUpdate)
+
+        // Parse `lastUpdate` as a Long (timestamp in milliseconds)
+        val date = stockItem.lastUpdate?.let { Date(it) } ?: Date(0)
+        viewHolder.update.text = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(date)
     }
+
+
 }
 
 
