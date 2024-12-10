@@ -4,5 +4,6 @@ import androidx.lifecycle.LiveData
 
 interface Repository {
     val itemsLiveData: LiveData<List<StockItem>>
-    suspend fun getItem(id: Int): StockItem
+    suspend fun getItem(fromSymbol: String?): StockItem
+    suspend fun loadData()
 }
