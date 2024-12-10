@@ -5,7 +5,7 @@ data class StockItem (
     val toSymbol: String?,
     val lastMarket: String?,
     val price: String?,
-    val lastUpdate: Long?, // Change from String to Long
+    val lastUpdate: String?, // Change from String to Long
     val highDay: String?,
     val lowDay: String?,
     val imageUrl: String?
