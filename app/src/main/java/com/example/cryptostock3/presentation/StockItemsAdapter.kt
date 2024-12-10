@@ -46,10 +46,10 @@ class StockItemsAdapter : ListAdapter<CurrencyItem, StockItemsAdapter.ViewHolder
             itemsInteractionListener?.onClick(stockItem)
         }
         Picasso.get().load(stockItem.imageUrl).into(viewHolder.image)
-        viewHolder.currency.text = stockItem.currency
+        viewHolder.currency.text = stockItem.fromSymbol
         viewHolder.price.text = stockItem.price.toString()
         val dateFormat = SimpleDateFormat("dd:mm:yyyy", Locale.getDefault())
-        viewHolder.update.text = dateFormat.format(stockItem.update)
+        viewHolder.update.text = dateFormat.format(stockItem.lastUpdate)
     }
 }
 
