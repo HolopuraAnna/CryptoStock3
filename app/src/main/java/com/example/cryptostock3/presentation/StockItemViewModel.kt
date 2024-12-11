@@ -19,10 +19,6 @@ class StockItemViewModel @Inject constructor(
     val itemLiveData: LiveData<StockItem>
         get() = _itemLiveData
 
-    private val _finishEditLiveData = MutableLiveData<Unit>()
-    val finishEditLiveData: LiveData<Unit>
-        get() = _finishEditLiveData
-
     fun getItem(fromSymbol: String) {
         viewModelScope.launch {
             val stockItem = getItemUseCase(fromSymbol)
