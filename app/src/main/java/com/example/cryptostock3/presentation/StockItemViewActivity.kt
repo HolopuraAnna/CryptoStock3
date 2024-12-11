@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.cryptostock3.databinding.ActivityItemBinding
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.activity.viewModels
-
+import com.bumptech.glide.Glide
 
 
 @AndroidEntryPoint
@@ -46,9 +46,11 @@ class StockItemViewActivity : AppCompatActivity() {
                 min.setText(it.lowDay)
                 max.setText(it.highDay)
                 lastDeal.setText(it.lastMarket)
-                update.setText(it.lastUpdate.toString())
+                update.setText(convertTime(it.lastUpdate))
+                Glide.with(this@StockItemViewActivity)
+                    .load(it.imageUrl)
+                    .into(pic)
             }
         }
-
     }
 }
