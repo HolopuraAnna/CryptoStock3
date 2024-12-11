@@ -1,6 +1,7 @@
 package com.example.cryptostock3.data.db
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.cryptostock3.domain.StockItem
 import com.google.gson.annotations.SerializedName
 
@@ -20,6 +21,7 @@ data class StockEntity(
     @SerializedName("PRICE")
     val price: String?,
 
+    @PrimaryKey(autoGenerate = true)
     @SerializedName("LASTUPDATE")
     val lastUpdate: Long?,
 

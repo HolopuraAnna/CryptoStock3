@@ -4,9 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.cryptostock3.data.api.ApiResponse
 
-@Database(entities = [ApiResponse::class], version = 1)
+@Database(entities = [StockEntity::class], version = 1)
 public abstract class StockDatabase : RoomDatabase() {
 
     abstract fun wordDao(): DaoStockItem

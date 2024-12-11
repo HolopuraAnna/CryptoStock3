@@ -1,5 +1,6 @@
 package com.example.cryptostock3.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.cryptostock3.domain.usecases.GetItemUseCase
 import com.example.cryptostock3.domain.usecases.GetItemsUseCase
