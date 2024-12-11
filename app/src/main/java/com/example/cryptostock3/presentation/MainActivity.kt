@@ -45,13 +45,13 @@ class MainActivity : AppCompatActivity() {
 
         //loadData()
 
-//        stockItemsAdapter.itemsInteractionListener = object : StockItemsAdapter.ItemsInteractionListener {
-//            override fun onClick(stockItem: StockItem) {
-//                Log.d("XXXX", "onClick: $stockItem")
-//
-//                startStockItemActivity(stockItem)
-//            }
-//        }
+        stockItemsAdapter.itemsInteractionListener = object : StockItemsAdapter.ItemsInteractionListener {
+            override fun onClick(stockItem: StockItem) {
+                Log.d("XXXX", "onClick: $stockItem")
+
+                startStockItemActivity(stockItem)
+            }
+        }
     }
 
 
