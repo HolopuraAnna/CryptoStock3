@@ -46,7 +46,7 @@ class StockItemViewActivity : AppCompatActivity() {
                 min.setText(it.lowDay)
                 max.setText(it.highDay)
                 lastDeal.setText(it.lastMarket)
-                update.setText(it.lastUpdate.toString())
+                update.setText(convertTime(it.lastUpdate))
                 Glide.with(this@StockItemViewActivity)
                     .load(it.imageUrl)
                     .into(pic)

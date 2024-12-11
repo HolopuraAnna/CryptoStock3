@@ -50,9 +50,8 @@ class StockItemsAdapter : ListAdapter<StockItem, StockItemsAdapter.ViewHolder>(S
         viewHolder.currency.text = stockItem.fromSymbol
         viewHolder.price.text = stockItem.price.toString()
 
-        // Parse `lastUpdate` as a Long (timestamp in milliseconds)
-        val date = stockItem.lastUpdate?.let { Date(it) } ?: Date(0)
-        viewHolder.update.text = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(date)
+
+        viewHolder.update.text = convertTime(stockItem.lastUpdate)
     }
 
 
