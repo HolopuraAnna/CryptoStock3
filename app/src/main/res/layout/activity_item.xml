@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageView
@@ -31,6 +32,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:cardBackgroundColor="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/currency">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:text="Price:"
                 android:padding="10dp"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -52,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:text="XX.XX"
                 android:padding="10dp"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:gravity="right"
                 app:layout_constraintTop_toTopOf="parent"
@@ -63,19 +67,22 @@
                 android:layout_height="wrap_content"
                 android:text="Day min price:"
                 android:padding="10dp"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@id/priceText"
                 app:layout_constraintStart_toStartOf="parent"/>
+
             <TextView
                 android:id="@+id/min"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="XX.XX"
-                android:padding="10dp"
-                android:textSize="16sp"
                 android:gravity="right"
-                app:layout_constraintTop_toBottomOf="@id/price"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:padding="10dp"
+                android:text="XX.XX"
+                android:textColor="@color/design_default_color_error"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/price" />
 
             <TextView
                 android:id="@+id/maxText"
@@ -83,19 +90,22 @@
                 android:layout_height="wrap_content"
                 android:text="Day max price:"
                 android:padding="10dp"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@id/minText"
                 app:layout_constraintStart_toStartOf="parent"/>
+
             <TextView
                 android:id="@+id/max"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="XX.XX"
-                android:padding="10dp"
-                android:textSize="16sp"
                 android:gravity="right"
-                app:layout_constraintTop_toBottomOf="@id/min"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:padding="10dp"
+                android:text="XX.XX"
+                android:textColor="#2DC333"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/min" />
 
             <TextView
                 android:id="@+id/lastDealText"
@@ -103,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:text="Last deal:"
                 android:padding="10dp"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@id/maxText"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -112,6 +123,7 @@
                 android:layout_height="wrap_content"
                 android:text="name"
                 android:padding="10dp"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:gravity="right"
                 app:layout_constraintTop_toBottomOf="@id/max"
@@ -123,6 +135,7 @@
                 android:layout_height="wrap_content"
                 android:text="Updated:"
                 android:padding="10dp"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@id/lastDealText"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -132,6 +145,7 @@
                 android:layout_height="wrap_content"
                 android:text="XX.XX.XX"
                 android:padding="10dp"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:gravity="right"
                 app:layout_constraintTop_toBottomOf="@id/lastDeal"
