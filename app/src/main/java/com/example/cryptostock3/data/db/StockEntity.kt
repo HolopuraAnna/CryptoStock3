@@ -36,7 +36,7 @@ data class StockEntity(
 ) {
     fun toStockItem(): StockItem {
         return StockItem(
-            fromSymbol = this.fromSymbol,
+            fromSymbol = this.fromSymbol?: StockItem.UNDEFINED_FSYM,
             toSymbol = this.toSymbol,
             lastMarket = this.lastMarket,
             price = this.price,

@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
     private fun startStockItemActivity(stockItem: StockItem) {
         val intent = Intent(this, StockItemActivity::class.java)
             .apply {

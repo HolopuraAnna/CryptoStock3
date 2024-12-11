@@ -10,7 +10,7 @@ data class StockData(
 ) {
     fun toStockItem(): StockItem {
         return StockItem(
-            fromSymbol = this.raw?.usd?.fromSymbol,
+            fromSymbol = this.raw?.usd?.fromSymbol?: StockItem.UNDEFINED_FSYM,
             toSymbol = this.raw?.usd?.toSymbol,
             lastMarket = this.display?.usdDisplay?.lastMarket,
             price = this.raw?.usd?.price.toString(),
