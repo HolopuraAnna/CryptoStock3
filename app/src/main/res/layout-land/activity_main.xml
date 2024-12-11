@@ -11,19 +11,20 @@
         android:id="@+id/stockItems"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        app:layout_constraintEnd_toStartOf="@id/detailsContainer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_weight="1" />
 
-    <androidx.fragment.app.FragmentContainerView
+    <FrameLayout
         android:id="@+id/detailsContainer"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout="@layout/fragment_stock_item" />
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toEndOf="@id/stockItems" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
