@@ -3,20 +3,13 @@ package com.example.cryptostock3.presentation
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.cryptostock3.R
-import com.example.cryptostock3.data.api.RetrofitObject
 import com.example.cryptostock3.databinding.ActivityMainBinding
 import com.example.cryptostock3.domain.StockItem
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -44,52 +37,23 @@ class MainActivity : AppCompatActivity() {
         binding.stockItems.adapter = stockItemsAdapter
         stockItemsAdapter.itemsInteractionListener = object : StockItemsAdapter.ItemsInteractionListener {
             override fun onClick(stockItem: StockItem) {
-                startStockItemViewActivity(stockItem)
+                stockItem.fromSymbol?.let {
+                    startStockItemViewActivity(stockItem)
+                } ?: Log.e("MainActivity", "fromSymbol is null for the clicked item")
             }
+
         }
-
-        //loadData()
-
-//        stockItemsAdapter.itemsInteractionListener = object : StockItemsAdapter.ItemsInteractionListener {
-//            override fun onClick(stockItem: StockItem) {
-//                Log.d("XXXX", "onClick: $stockItem")
-//
-//                startStockItemActivity(stockItem)
-//            }
-//        }
     }
 
 
 
     private fun startStockItemViewActivity(stockItem: StockItem) {
-        val intent = Intent(this, StockItemViewActivity::class.java)
-            .apply {
-            putExtra(EXTRA_MODE, MODE_EDIT)
+        Log.d("MainActivity", "Starting StockItemViewActivity with fromSymbol: ${stockItem.fromSymbol}")
+        val intent = Intent(this, StockItemViewActivity::class.java).apply {
             putExtra(EXTRA_ITEM_FSYM, stockItem.fromSymbol)
         }
         startActivity(intent)
     }
 
-//    fun loadData() {
-//        lifecycleScope.launch {
-//            try {
-//                //Toast.makeText(this@MainActivity, "Fetching the crypto magic!", Toast.LENGTH_SHORT).show()
-//                val response = withContext(Dispatchers.IO) {
-//                    RetrofitObject.stockService.getAndroid()
-//                }
-//
-//                if (response.isSuccessful) {
-//                    val stocks = response.body()?.data?.map { it.toStockItem() } ?: emptyList()
-//                    Log.d("XXXX", "Loaded ${stocks.size} stocks $stocks")
-//                    stockItemsAdapter.submitList(stocks)
-//                } else {
-//                    Log.e("XXXX", "Error: ${response.code()} - ${response.message()}")
-//                    Toast.makeText(this@MainActivity, "Failed to fetch stocks: ${response.message()}", Toast.LENGTH_LONG).show()
-//                }
-//            } catch (e: Exception) {
-//                Log.e("XXXX", "Something went wrong: ${e.localizedMessage}")
-//                Toast.makeText(this@MainActivity, "Oops! Something went wrong. Please try again.", Toast.LENGTH_LONG).show()
-//            }
-//        }
-//    }
+
 }

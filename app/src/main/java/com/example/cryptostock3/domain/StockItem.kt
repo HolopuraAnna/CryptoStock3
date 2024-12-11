@@ -1,7 +1,7 @@
 package com.example.cryptostock3.domain
 
 data class StockItem (
-    val fromSymbol: String = UNDEFINED_FSYM,
+    val fromSymbol: String?,
     val toSymbol: String?,
     val lastMarket: String?,
     val price: String?,
@@ -9,9 +9,3 @@ data class StockItem (
     val highDay: String?,
     val lowDay: String?,
     val imageUrl: String?)
-{
-    companion object {
-        const val UNDEFINED_FSYM = "A"
-    }
-
-}
