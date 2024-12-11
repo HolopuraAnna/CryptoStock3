@@ -47,10 +47,6 @@ class StockItemViewActivity : AppCompatActivity() {
                     }
                 }
 
-                MODE_ADD -> {
-                    // Initialize for adding new StockItem
-                }
-
                 MODE_UNDEFINED -> throw IllegalArgumentException("Mode isn't defined")
             }
         } else {

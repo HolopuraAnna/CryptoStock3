@@ -26,8 +26,18 @@ class RepositoryImpl @Inject constructor() : Repository {
     override suspend fun getItem(fromSymbol: String?): StockItem {
         return items.find {
             it.fromSymbol == fromSymbol
-        } ?: throw IllegalStateException("Item $fromSymbol isn't found")
+        } ?: StockItem(
+            fromSymbol = StockItem.UNDEFINED_FSYM,
+            toSymbol = "a",
+            lastMarket = "a",
+            price = "a",
+            lastUpdate = 0L,
+            highDay = "0",
+            lowDay = "0",
+            imageUrl = "a"
+        )
     }
+
 
 
     override suspend fun loadData() {

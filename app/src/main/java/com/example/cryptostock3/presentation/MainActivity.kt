@@ -42,6 +42,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.stockItems.layoutManager = LinearLayoutManager(this)
         binding.stockItems.adapter = stockItemsAdapter
+        stockItemsAdapter.itemsInteractionListener = object : StockItemsAdapter.ItemsInteractionListener {
+            override fun onClick(stockItem: StockItem) {
+                startStockItemViewActivity(stockItem)
+            }
+        }
 
         //loadData()
 
@@ -56,8 +61,8 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    private fun startStockItemActivity(stockItem: StockItem) {
-        val intent = Intent(this, StockItemActivity::class.java)
+    private fun startStockItemViewActivity(stockItem: StockItem) {
+        val intent = Intent(this, StockItemViewActivity::class.java)
             .apply {
             putExtra(EXTRA_MODE, MODE_EDIT)
             putExtra(EXTRA_ITEM_FSYM, stockItem.fromSymbol)
