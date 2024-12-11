@@ -13,10 +13,12 @@ import com.example.cryptostock3.R
 import com.example.cryptostock3.data.api.RetrofitObject
 import com.example.cryptostock3.databinding.ActivityMainBinding
 import com.example.cryptostock3.domain.StockItem
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy {
@@ -41,13 +43,15 @@ class MainActivity : AppCompatActivity() {
         binding.stockItems.layoutManager = LinearLayoutManager(this)
         binding.stockItems.adapter = stockItemsAdapter
 
-        stockItemsAdapter.itemsInteractionListener = object : StockItemsAdapter.ItemsInteractionListener {
-            override fun onClick(stockItem: StockItem) {
-                Log.d("XXXX", "onClick: $stockItem")
+        //loadData()
 
-                startStockItemActivity(stockItem)
-            }
-        }
+//        stockItemsAdapter.itemsInteractionListener = object : StockItemsAdapter.ItemsInteractionListener {
+//            override fun onClick(stockItem: StockItem) {
+//                Log.d("XXXX", "onClick: $stockItem")
+//
+//                startStockItemActivity(stockItem)
+//            }
+//        }
     }
 
 
@@ -59,4 +63,27 @@ class MainActivity : AppCompatActivity() {
         }
         startActivity(intent)
     }
+
+//    fun loadData() {
+//        lifecycleScope.launch {
+//            try {
+//                //Toast.makeText(this@MainActivity, "Fetching the crypto magic!", Toast.LENGTH_SHORT).show()
+//                val response = withContext(Dispatchers.IO) {
+//                    RetrofitObject.stockService.getAndroid()
+//                }
+//
+//                if (response.isSuccessful) {
+//                    val stocks = response.body()?.data?.map { it.toStockItem() } ?: emptyList()
+//                    Log.d("XXXX", "Loaded ${stocks.size} stocks $stocks")
+//                    stockItemsAdapter.submitList(stocks)
+//                } else {
+//                    Log.e("XXXX", "Error: ${response.code()} - ${response.message()}")
+//                    Toast.makeText(this@MainActivity, "Failed to fetch stocks: ${response.message()}", Toast.LENGTH_LONG).show()
+//                }
+//            } catch (e: Exception) {
+//                Log.e("XXXX", "Something went wrong: ${e.localizedMessage}")
+//                Toast.makeText(this@MainActivity, "Oops! Something went wrong. Please try again.", Toast.LENGTH_LONG).show()
+//            }
+//        }
+//    }
 }

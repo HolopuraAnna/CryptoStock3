@@ -32,10 +32,14 @@ class RepositoryImpl @Inject constructor() : Repository {
 
     override suspend fun loadData() {
         try {
-            val response = RetrofitObject.stockService.getAndroid()
+            //val response = RetrofitObject.stockService.getAndroid()
+            val response = withContext(Dispatchers.IO) {
+                RetrofitObject.stockService.getAndroid()
+            }
 
             if (response.isSuccessful) {
                 val stockItems = response.body()?.data?.map { it.toStockItem() } ?: emptyList()
+                Log.d("XXXX", "Loaded ${stockItems.size} stocks $stockItems")
 
                 withContext(Dispatchers.Main) {
                     _itemsLiveData.value = stockItems

@@ -13,6 +13,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.example.cryptostock3.data.api.RetrofitObject
+import com.example.cryptostock3.data.db.toStockEntity
 import javax.inject.Inject
 
 class RepositoryDatabase @Inject constructor(@ApplicationContext context: Context) : Repository {
@@ -40,23 +41,16 @@ class RepositoryDatabase @Inject constructor(@ApplicationContext context: Contex
 
     override suspend fun loadData() {
         try {
-            val response = RetrofitObject.stockService.getAndroid()
+            //val response = RetrofitObject.stockService.getAndroid()
+            val response = withContext(Dispatchers.IO) {
+                RetrofitObject.stockService.getAndroid()
+            }
 
             if (response.isSuccessful) {
                 val stockItems = response.body()?.data?.map { it.toStockItem() } ?: emptyList()
 
-                val stockEntities = stockItems.map { stockItem ->
-                    StockEntity(
-                        fromSymbol = stockItem.fromSymbol,
-                        toSymbol = stockItem.toSymbol,
-                        lastMarket = stockItem.lastMarket,
-                        price = stockItem.price,
-                        lastUpdate = stockItem.lastUpdate,
-                        supply = stockItem.highDay,
-                        marketCap = stockItem.lowDay,
-                        imageUrl = stockItem.imageUrl
-                    )
-                }
+                val stockEntities = stockItems.map { it.toStockEntity()}
+                Log.d("XXXX", "Loaded ${stockEntities.size} stocks $stockEntities")
 
                 withContext(Dispatchers.IO) {
                     dao.insert(stockEntities)

@@ -43,7 +43,7 @@ data class StockEntity(
             lastUpdate = this.lastUpdate,
             highDay = this.supply,
             lowDay = this.marketCap,
-            imageUrl = this.imageUrl
+            imageUrl = "https://www.cryptocompare.com${this.imageUrl ?: ""}"
         )
     }
 }

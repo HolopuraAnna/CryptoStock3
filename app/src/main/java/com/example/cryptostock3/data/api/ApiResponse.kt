@@ -25,7 +25,7 @@ data class StockData(
             lastUpdate = this.raw?.usd?.lastUpdate,
             highDay = this.raw?.usd?.highDay.toString(),
             lowDay = this.raw?.usd?.lowDay.toString(),
-            imageUrl = this.coinInfo?.imageUrl
+            imageUrl = "https://www.cryptocompare.com${this.coinInfo?.imageUrl ?: ""}"
         )
     }
 }

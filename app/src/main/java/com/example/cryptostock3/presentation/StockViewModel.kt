@@ -22,6 +22,7 @@ class StockViewModel @Inject constructor(
 
 
     fun loadData() {
+        Log.d("XXXX", "start")
         CoroutineScope(Dispatchers.Default).launch {
             loadItemUseCase()
         }
