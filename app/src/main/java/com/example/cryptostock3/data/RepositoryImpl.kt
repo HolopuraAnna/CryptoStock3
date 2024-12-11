@@ -14,7 +14,7 @@ class RepositoryImpl @Inject constructor() : Repository {
 
 //    private val items: MutableList<StockItem> = mutableListOf()
 
-    private val items = setOf<StockItem>()
+    private val items = mutableSetOf<StockItem>()
 
     private val _itemsLiveData = MutableLiveData<List<StockItem>>()
 
@@ -24,15 +24,17 @@ class RepositoryImpl @Inject constructor() : Repository {
 
 
     override suspend fun getItem(fromSymbol: String?): StockItem {
+        Log.d("RepositoryImpl", "Looking for item with fromSymbol: $fromSymbol")
+        items.forEach { Log.d("RepositoryImpl", "Available item: ${it.fromSymbol}") }
         return items.find {
             it.fromSymbol == fromSymbol
         } ?: throw IllegalStateException("Item $fromSymbol isn't found")
     }
 
 
+
     override suspend fun loadData() {
         try {
-            //val response = RetrofitObject.stockService.getAndroid()
             val response = withContext(Dispatchers.IO) {
                 RetrofitObject.stockService.getAndroid()
             }
@@ -40,7 +42,8 @@ class RepositoryImpl @Inject constructor() : Repository {
             if (response.isSuccessful) {
                 val stockItems = response.body()?.data?.map { it.toStockItem() } ?: emptyList()
                 Log.d("XXXX", "Loaded ${stockItems.size} stocks $stockItems")
-
+                items.clear()
+                items.addAll(stockItems)
                 withContext(Dispatchers.Main) {
                     _itemsLiveData.value = stockItems
                 }
@@ -51,6 +54,7 @@ class RepositoryImpl @Inject constructor() : Repository {
             Log.e("XXXX", "Failed to load data: ${e.localizedMessage}")
         }
     }
+
 
 
     init {

@@ -8,5 +8,4 @@ data class StockItem (
     val lastUpdate: Long?, // Change from String to Long
     val highDay: String?,
     val lowDay: String?,
-    val imageUrl: String?
-)
+    val imageUrl: String?)
