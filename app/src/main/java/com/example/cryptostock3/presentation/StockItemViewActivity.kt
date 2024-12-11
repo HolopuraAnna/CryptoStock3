@@ -5,52 +5,39 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.cryptostock3.databinding.ActivityItemBinding
-import dagger.hilt.android.AndroidEntryPoint
-import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-
+import com.example.cryptostock3.R
+import com.example.cryptostock3.databinding.ActivityItemBinding
+import com.example.cryptostock3.domain.StockItem
+import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class StockItemViewActivity : AppCompatActivity() {
+
     private val binding by lazy {
         ActivityItemBinding.inflate(layoutInflater)
     }
 
-    private val viewModel by viewModels<StockItemViewModel>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         parseItemIntent(intent)
-        setupLiveData()
     }
 
     private fun parseItemIntent(intent: Intent) {
         val fromSymbol = intent.getStringExtra(EXTRA_ITEM_FSYM).toString()
         if (fromSymbol != null) {
-            viewModel.getItem(fromSymbol)
+            setupFragment(StockItemFragment.newInstance(fromSymbol))
         } else {
             Log.e("StockItemViewActivity", "No fromSymbol found in intent")
         }
     }
 
-
-    @SuppressLint("SetTextI18n")
-    private fun setupLiveData() {
-        viewModel.itemLiveData.observe(this) {
-            with(binding) {
-                currency.setText("${it.fromSymbol} / ${it.toSymbol}")
-                price.setText(it.price)
-                min.setText(it.lowDay)
-                max.setText(it.highDay)
-                lastDeal.setText(it.lastMarket)
-                update.setText(convertTime(it.lastUpdate))
-                Glide.with(this@StockItemViewActivity)
-                    .load(it.imageUrl)
-                    .into(pic)
-            }
-        }
+    private fun setupFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.stock_item_container, fragment)
+            .commit()
     }
 }

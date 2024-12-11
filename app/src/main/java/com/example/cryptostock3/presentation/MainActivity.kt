@@ -3,9 +3,11 @@ package com.example.cryptostock3.presentation
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cryptostock3.R
 import com.example.cryptostock3.databinding.ActivityMainBinding
 import com.example.cryptostock3.domain.StockItem
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,12 +40,26 @@ class MainActivity : AppCompatActivity() {
         stockItemsAdapter.itemsInteractionListener = object : StockItemsAdapter.ItemsInteractionListener {
             override fun onClick(stockItem: StockItem) {
                 stockItem.fromSymbol?.let {
-                    startStockItemViewActivity(stockItem)
+                    if (isInSplitScreenMode()) {
+                        // Replace the details container with the StockItemFragment
+                        val fragment = StockItemFragment.newInstance(stockItem.fromSymbol)
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.detailsContainer, fragment)
+                            .commit()
+                    } else {
+                        startStockItemViewActivity(stockItem)
+                    }
                 } ?: Log.e("MainActivity", "fromSymbol is null for the clicked item")
             }
-
         }
+
     }
+
+    private fun isInSplitScreenMode(): Boolean {
+        val detailsContainer = findViewById<View?>(R.id.detailsContainer)
+        return detailsContainer != null && detailsContainer.visibility == View.VISIBLE
+    }
+
 
 
 
