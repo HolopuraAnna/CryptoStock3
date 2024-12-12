@@ -1,0 +1,53 @@
+Index: app/src/main/java/com/example/cryptostock3/data/api/APIResponse.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.cryptostock3.data.api\n\nimport com.google.gson.annotations.SerializedName\n\ndata class ApiResponse(\n    @SerializedName(\"Message\") val message: String?,\n    @SerializedName(\"Type\") val type: Int?,\n    @SerializedName(\"Data\") val data: StockData?\n)\n\n\n\ndata class StockData(\n    @SerializedName(\"CoinInfo\") val coinInfo: CoinInfo?,\n    @SerializedName(\"RAW\") val raw: RawData?\n)\n\ndata class CoinInfo(\n    @SerializedName(\"Name\") val name: String?,\n    @SerializedName(\"FullName\") val fullName: String?,\n    @SerializedName(\"ImageUrl\") val imageUrl: String?\n)\n\ndata class RawData(\n    @SerializedName(\"USD\") val usd: UsdData?\n)\n\ndata class UsdData(\n    @SerializedName(\"FROMSYMBOL\") val fromSymbol: String?,\n    @SerializedName(\"TOSYMBOL\") val toSymbol: String?,\n    @SerializedName(\"PRICE\") val price: Double?,\n    @SerializedName(\"LASTUPDATE\") val lastUpdate: Long?,\n    @SerializedName(\"HIGHDAY\") val highDay: Double?,\n    @SerializedName(\"LOWDAY\") val lowDay: Double?\n)\n
+===================================================================
+diff --git a/app/src/main/java/com/example/cryptostock3/data/api/APIResponse.kt b/app/src/main/java/com/example/cryptostock3/data/api/APIResponse.kt
+--- a/app/src/main/java/com/example/cryptostock3/data/api/APIResponse.kt	(revision ddc658a4887750cfe672b2ed8dc0a574ce14133e)
++++ b/app/src/main/java/com/example/cryptostock3/data/api/APIResponse.kt	(date 1733924949306)
+@@ -1,35 +1,13 @@
+ package com.example.cryptostock3.data.api
+ 
++import androidx.room.Entity
++import com.example.cryptostock3.domain.StockItem
+ import com.google.gson.annotations.SerializedName
+ 
+ data class ApiResponse(
+-    @SerializedName("Message") val message: String?,
+-    @SerializedName("Type") val type: Int?,
+-    @SerializedName("Data") val data: StockData?
+-)
+-
+-
+-
+-data class StockData(
+-    @SerializedName("CoinInfo") val coinInfo: CoinInfo?,
+-    @SerializedName("RAW") val raw: RawData?
+-)
+-
+-data class CoinInfo(
+-    @SerializedName("Name") val name: String?,
+-    @SerializedName("FullName") val fullName: String?,
+-    @SerializedName("ImageUrl") val imageUrl: String?
+-)
+-
+-data class RawData(
+-    @SerializedName("USD") val usd: UsdData?
+-)
+-
+-data class UsdData(
+-    @SerializedName("FROMSYMBOL") val fromSymbol: String?,
+-    @SerializedName("TOSYMBOL") val toSymbol: String?,
+-    @SerializedName("PRICE") val price: Double?,
+-    @SerializedName("LASTUPDATE") val lastUpdate: Long?,
+-    @SerializedName("HIGHDAY") val highDay: Double?,
+-    @SerializedName("LOWDAY") val lowDay: Double?
+-)
++//    @SerializedName("Message") val message: String?,
++//    @SerializedName("Type") val type: Int?,
++    @SerializedName("Data") val data: List<StockData>?
++){
++    fun toListStockItem(): List<StockItem>? = this.data?.map { it.toStockItem() }
++}
+\ No newline at end of file
